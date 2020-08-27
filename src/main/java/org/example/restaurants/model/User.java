@@ -1,13 +1,23 @@
 package org.example.restaurants.model;
 
+import java.util.Date;
+
 public class User {
     private String name;
     private String email;
     private Restaurant chosenRestaurant;
+    private Date registered;
 
     public User(String name, String email) {
         this.name = name;
         this.email = email;
+        registered = new Date();
+    }
+
+    public User(String name, String email, Date registered) {
+        this.name = name;
+        this.email = email;
+        this.registered = registered;
     }
 
     public String getName() {
@@ -32,6 +42,7 @@ public class User {
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", chosenRestaurant=" + chosenRestaurant +
+                ", registered=" + registered +
                 '}';
     }
 }
