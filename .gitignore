@@ -2,5 +2,8 @@
 out
 target
 *.iml
-log
+*.log
 *.patch
+*.properties
+*.lck
+*.script
