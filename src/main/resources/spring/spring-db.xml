@@ -12,12 +12,54 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-      <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+      <context:property-placeholder location="classpath:db/h2.properties" system-properties-mode="OVERRIDE"/>
+      <context:component-scan base-package="org.example.**.repository"/>
+      <jpa:repositories base-package="org.example.**.repository.jpa"/>
+      <tx:annotation-driven/>
 
+      <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+            <jdbc:script location="${jdbc.initLocation}"/>
+            <jdbc:script encoding="utf-8" location="${jdbc.populateLocation}"/>
+      </jdbc:initialize-database>
+
+<!--      <bean id="dataSource"-->
+<!--            class="org.springframework.jdbc.datasource.DriverManagerDataSource"-->
+<!--            p:driverClassName="org.h2.Driver"-->
+<!--            p:url="${database.url}"-->
+<!--            p:username="${database.username}"-->
+<!--            p:password="${database.password}"/>-->
+
+      <!--dataSource with log4jdbc driver-->
       <bean id="dataSource"
             class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-            p:driverClassName="org.hsqldb.jdbcDriver"
+            p:driverClassName="net.sf.log4jdbc.DriverSpy"
             p:url="${database.url}"
             p:username="${database.username}"
             p:password="${database.password}"/>
+
+      <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+            p:entityManagerFactory-ref="entityManagerFactory"/>
+
+            <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+                  p:dataSource-ref="dataSource"
+                  p:packagesToScan="org.example.**.model">
+
+                  <property name="jpaPropertyMap">
+                        <map>
+                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).DIALECT}" value="${hibernate.dialect}"/>
+                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
+                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}" value="${hibernate.use_sql_comments}"/>
+<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_ACTION}" value="${hibernate.hbm2ddl.scripts.action}"/>-->
+<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_CREATE_TARGET}" value="${RESTAURANTS_ROOT}/config/ddl/create.ddl"/>-->
+<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_DROP_TARGET}" value="${RESTAURANTS_ROOT}/config/ddl/drop.ddl"/>-->
+<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="${hibernate.hbm2ddl.auto}"/>-->
+<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_DELIMITER}" value=";"/>-->
+                        </map>
+                  </property>
+
+                  <property name="jpaVendorAdapter">
+                        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:showSql="${jpa.showSql}"/>
+                  </property>
+            </bean>
+
 </beans>
