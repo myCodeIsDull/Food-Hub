@@ -1,22 +1,46 @@
 package org.example.restaurants.model;
 
-import org.example.restaurants.util.RestaurantsUtil;
-
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class Menu {
-    private final Map<String, Integer> menu;
+@Entity
+public class Menu extends AbstractBaseEntity {
 
-    public Menu(Map<String, Integer> menu) {
-        this.menu = menu;
+    @Column(name = "date_of_creation", nullable = false, columnDefinition = "timestamp default now()")
+    private final Date registered = new Date();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Restaurant restaurant;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "menu_id")
+    private List<Action> history;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "meal")
+    @MapKeyColumn(name = "description")
+    @Column(name = "price")
+    private Map<String, Integer> lunchMenu = new HashMap<>();
+
+    public Menu(Integer id) {
+        super(id);
     }
 
-    @Override
-    public String toString() {
-        return menu.entrySet().stream()
-                .map(e ->e.getKey()+":"+ RestaurantsUtil.convertToCurrency(e.getValue()))
-                .collect(Collectors.joining(", "));
+    protected Menu() {
     }
 
+    public Date getRegistered() {
+        return registered;
+    }
+
+    public Map<String, Integer> getLunchMenu() {
+        return lunchMenu;
+    }
+
+    public void setLunchMenu(Map<String, Integer> lunchMenu) {
+        this.lunchMenu = lunchMenu;
+    }
 }

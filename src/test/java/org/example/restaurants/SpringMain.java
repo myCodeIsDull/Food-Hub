@@ -1,14 +1,14 @@
 package org.example.restaurants;
 
-import org.example.restaurants.model.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.persistence.EntityManagerFactory;
+
 public class SpringMain {
-    private static ApplicationContext appct = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+    private static ApplicationContext appct = new ClassPathXmlApplicationContext("spring/spring-db.xml");
 
     public static void main(String[] args) {
-        User user = (User)appct.getBean("user");
-        System.out.println(user);
+        EntityManagerFactory emf = (EntityManagerFactory) appct.getBean("entityManagerFactory");
     }
 }

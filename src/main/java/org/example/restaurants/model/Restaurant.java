@@ -1,53 +1,88 @@
 package org.example.restaurants.model;
 
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
-import java.util.concurrent.atomic.AtomicInteger;
+@Entity
+@Table(name = "restaurants")
+@NamedQueries({
+        @NamedQuery(name = Restaurant.GET_BY_PHONE, query = "SELECT r FROM Restaurant r LEFT JOIN FETCH r.address WHERE r.address.phone=?1"),
+        @NamedQuery(name = Restaurant.GET_ALL, query = "SELECT r FROM Restaurant r LEFT JOIN FETCH r.address a order by r.name"),
+        @NamedQuery(name = Restaurant.GET_ALL_WITH_MENUS, query = "SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.address LEFT JOIN FETCH r.menuList")
 
-public class Restaurant {
-    private final String name;
-    private final String address;
-    private final Menu menu;
-    private AtomicInteger voices;
+})
+public class Restaurant extends AbstractNamedEntity {
+    public static final String GET_BY_PHONE = "Restaurant.getByPhone";
+    public static final String GET_ALL = "Restaurant.getAll";
+    public static final String GET_ALL_WITH_MENUS = "Restaurant.getWithMenus";
 
-    public Restaurant(String name, String address, Menu menu) {
-        this.name = name;
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    private Date registered = new Date();
+
+    @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    private Address address;
+
+    @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
+    private boolean enabled = true;
+
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Menu> menuList;
+
+    public Restaurant() {
+    }
+
+    public Restaurant(Integer id, String name, Address address, Collection<Menu> menus) {
+        super(id, name);
         this.address = address;
-        this.menu = menu;
-        voices = new AtomicInteger(0);
+        setMenus(menus);
+        address.setRestaurant(this);
     }
 
-    public String getName() {
-        return name;
+    public Restaurant(Integer id, String name, Address address, Menu... menus) {
+        this(id, name, address, List.of(menus));
     }
 
-    public String getAddress() {
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Address getAddress() {
         return address;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public Date getRegistered() {
+        return registered;
     }
 
-    public int getVoices() {
-        return voices.get();
+    public void setRegistered(Date date) {
+        this.registered = date;
     }
 
-    public int incrementVoices() {
-        return voices.incrementAndGet();
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public int decrementVoices() {
-        return voices.get() > 0 ? voices.decrementAndGet() : 0;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
+    private List<Menu> setMenus(Collection<Menu> menus) {
+        return new LinkedList<>(menus);
+    }
+
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
 
     @Override
     public String toString() {
         return "Restaurant{" +
                 "name='" + name + '\'' +
-                ", street=" + address +
-                ", menu=" + menu +
-                ", votes=" + voices +
+                ", id=" + id +
+                ", address=" + address +
                 '}';
     }
 }
