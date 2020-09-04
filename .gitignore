@@ -1,9 +1,10 @@
 .idea
+config
 out
 target
 *.iml
 *.log
 *.patch
 *.properties
-*.lck
-*.script
+myDB.trace.db
+myDB.mv.db
