@@ -6,5 +6,4 @@ target
 *.log
 *.patch
 *.properties
-myDB.trace.db
-myDB.mv.db
+*.db
