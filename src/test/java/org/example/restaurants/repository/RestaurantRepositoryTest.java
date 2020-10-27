@@ -1,22 +1,14 @@
-package org.example.restaurants.repository.jpa;
+package org.example.restaurants.repository;
 
 import org.example.restaurants.model.Restaurant;
-import org.example.restaurants.repository.RestaurantRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.example.restaurants.RestaurantTestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig(locations = {
-        "classpath:spring/spring-db.xml"
-})
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-class RestaurantRepositoryTest {
+
+class RestaurantRepositoryTest  extends AbstractRepositoryTest {
 
     @Autowired
     RestaurantRepository repository;

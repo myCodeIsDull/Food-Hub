@@ -5,6 +5,7 @@ import java.util.List;
 import org.example.restaurants.model.Meal;
 import org.example.restaurants.repository.MealRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class DataJpaMealRepository implements MealRepository {
@@ -19,10 +20,12 @@ public class DataJpaMealRepository implements MealRepository {
   }
 
   @Override
+  @Transactional
   public Meal save(Meal record, int restId) {
     if (!record.isNew() && get(record.getId(), restId) == null) {
       return null;
     }
+    record.setRestaurant(restaurantRepository.getOne(restId));
     return mealRepository.save(record);
   }
 

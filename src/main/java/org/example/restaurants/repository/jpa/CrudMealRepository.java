@@ -13,13 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
-  @Transactional
-  @Modifying
-  @Query("DELETE FROM Meal m WHERE m.id=:id AND m.restaurant.id=:restId")
-  int delete(@Param("id") int id, @Param("restId") int restId);
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Meal m WHERE m.id=:id AND m.restaurant.id=:restId")
+    int delete(@Param("id") int id, @Param("restId") int restId);
 
-  List<Meal> getAllById(int restId, Date published);
+    @Query("SELECT m FROM Meal m WHERE m.restaurant.id=:restId AND m.published=:published")
+    List<Meal> getAllById(@Param("restId") int restId, @Param("published") Date published);
 
-  @Query("SELECT m FROM Meal m WHERE m.published=:published")
-  List<Meal> getAll(@Param("published") Date published);
+    @Query("SELECT m FROM Meal m WHERE m.published=:published")
+    List<Meal> getAll(@Param("published") Date published);
 }

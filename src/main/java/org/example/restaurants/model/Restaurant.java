@@ -24,8 +24,7 @@ import lombok.ToString;
 @NamedQueries({
         @NamedQuery(name = Restaurant.GET_ALL, query = "SELECT r FROM Restaurant r"),
 })
-@Table(name = "restaurants", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"phone"}, name = "unique_phone_number")})
+@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"phone"}, name = "unique_phone_number")})
 public class Restaurant extends AbstractNamedEntity {
 
     public static final String GET_ALL = "Restaurant.getAll";
