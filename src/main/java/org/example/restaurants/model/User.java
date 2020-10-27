@@ -16,18 +16,18 @@ import lombok.ToString;
 @ToString
 public class User extends AbstractNamedEntity {
 
-  @Column(name = "email", nullable = false, unique = true)
+  @Column(nullable = false, unique = true)
   @Email
   @NotBlank
   @Size(max = 100)
   private String email;
 
-  @Column(name = "password", nullable = false)
+  @Column(nullable = false)
   @NotBlank
   @Size(min = 5, max = 100)
   private String password;
 
-  @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+  @Column(nullable = false, columnDefinition = "timestamp default now()")
   @NotNull
   private Date registered = new Date();
 
@@ -39,12 +39,9 @@ public class User extends AbstractNamedEntity {
   @ElementCollection(fetch = FetchType.EAGER)
   private Set<Role> roles;
 
-  @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
+  @Column(nullable = false, columnDefinition = "boolean default true")
   private boolean enabled = true;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id")
-  private List<Action> history;
 
   public User(Integer id, String name, String email, String password, Collection<Role> roles) {
     super(id, name);
