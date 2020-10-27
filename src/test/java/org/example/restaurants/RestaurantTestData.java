@@ -11,7 +11,7 @@ import org.example.restaurants.model.Restaurant;
 
 public class RestaurantTestData {
 
-    public static final TestMatcher<Restaurant> RESTAURANT_MATCHER = TestMatcher.usingFieldsComparator("registered","address");
+    public static final TestMatcher<Restaurant> RESTAURANT_MATCHER = TestMatcher.usingFieldsComparator("registered", "address");
 
     public static final Address CFC_ADDRESS = new Address("Springfield", "Main St", "20", "555-35-35");
     public static final Address McD_ADDRESS = new Address("Springfield", "Maple St", "5", "333-40-515");
