@@ -5,6 +5,7 @@ import org.example.restaurants.model.Restaurant;
 import java.util.List;
 
 public interface RestaurantRepository {
+    //null if not found when updated
     Restaurant save(Restaurant restaurant);
 
     // false if not found
@@ -13,10 +14,6 @@ public interface RestaurantRepository {
     // null if not found
     Restaurant get(int id);
 
-    // null if not found
-    Restaurant getByTelephone(String telephone);
-
     List<Restaurant>getAll();
 
-    List<Restaurant>getWithMenus();
 }

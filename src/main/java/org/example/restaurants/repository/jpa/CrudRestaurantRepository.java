@@ -18,8 +18,4 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
 
 
     List<Restaurant>getAll();
-
-    List<Restaurant>getWithMenus();
-
-    Restaurant getByPhone(String phone);
 }

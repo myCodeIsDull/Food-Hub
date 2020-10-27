@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS action;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS meal;
 DROP TABLE IF EXISTS menu;
@@ -14,40 +13,30 @@ CREATE TABLE restaurants
     id         INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
     name       VARCHAR(100)          NOT NULL,
     enabled    BOOLEAN DEFAULT TRUE  NOT NULL,
-    registered DATE    default now() NOT NULL
-);
-
-CREATE TABLE address
-(
-    id      INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
-    city    VARCHAR(20)                       NOT NULL,
-    street  VARCHAR(20)                       NOT NULL,
-    house   VARCHAR(20)                       NOT NULL,
-    phone   VARCHAR(20) CONSTRAINT unique_phone_number UNIQUE NOT NULL,
-    rest_id INTEGER REFERENCES restaurants (id) ON DELETE CASCADE
-);
-
-CREATE TABLE menu
-(
-    id               INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
-    date_of_creation DATE    DEFAULT now()                                 NOT NULL,
-    restaurant_id          INTEGER REFERENCES restaurants (id) ON DELETE CASCADE,
-    CONSTRAINT unique_upd_per_date_idx UNIQUE (restaurant_id, date_of_creation)
+    registered DATE    DEFAULT now() NOT NULL,
+    city       VARCHAR(100)          NOT NULL,
+    house      VARCHAR(10)           NOT NULL,
+    phone      VARCHAR(50)           NOT NULL,
+    street     VARCHAR(255)          NOT NULL,
+    CONSTRAINT unique_phone_number UNIQUE (phone)
 );
 
 CREATE TABLE meal
 (
-    menu_id     INTEGER REFERENCES menu(id) ON DELETE CASCADE,
-    price       INTEGER      NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    PRIMARY KEY (menu_id, description)
+    id        INTEGER   DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
+    rest_id   INTEGER REFERENCES restaurants (id) ON DELETE CASCADE,
+    price     INTEGER                 NOT NULL CHECK (price >= 10 AND price <= 5000),
+    title     VARCHAR(255)            NOT NULL,
+    published TIMESTAMP DEFAULT now() NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE users
 (
     id         INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
     name       VARCHAR(255)            NOT NULL,
-    email      VARCHAR(255) CONSTRAINT unique_email UNIQUE NOT NULL,
+    email      VARCHAR(255)
+        CONSTRAINT unique_email UNIQUE NOT NULL,
     password   VARCHAR(255)            NOT NULL,
     registered DATE    DEFAULT now()   NOT NULL,
     enabled    BOOLEAN DEFAULT TRUE    NOT NULL
@@ -59,13 +48,4 @@ CREATE TABLE user_roles
     role    VARCHAR(255),
     CONSTRAINT user_roles_idx UNIQUE (user_id, role),
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
-);
-
-CREATE TABLE action
-(
-    date    DATE DEFAULT now()                     NOT NULL,
-    time    TIME DEFAULT now()                     NOT NULL,
-    user_id INTEGER REFERENCES users (id),
-    menu_id INTEGER REFERENCES menu (id) ON DELETE CASCADE,
-    PRIMARY KEY (date, user_id)
 );
