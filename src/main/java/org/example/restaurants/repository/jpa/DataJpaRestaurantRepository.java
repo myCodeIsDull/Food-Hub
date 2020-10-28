@@ -2,14 +2,11 @@ package org.example.restaurants.repository.jpa;
 
 import org.example.restaurants.model.Restaurant;
 import org.example.restaurants.repository.RestaurantRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class DataJpaRestaurantRepository implements RestaurantRepository {

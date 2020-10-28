@@ -1,6 +1,14 @@
 package org.example.restaurants.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.CollectionTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -63,7 +71,7 @@ public class User extends AbstractNamedEntity {
   }
 
   public User(User user) {
-    super(user.id, user.name);
+    super(user.getId(), user.getName());
     this.email = user.email;
     this.password = user.password;
     this.registered = user.registered;

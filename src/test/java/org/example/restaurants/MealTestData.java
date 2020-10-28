@@ -37,15 +37,15 @@ public class MealTestData {
     public static final Meal MEAL16 = new Meal(MEAL1_ID + 15, parseString(PUBLISHED), 1095, "Sea food salad", SEAFOOD_HEAVEN);
     public static final Meal MEAL17 = new Meal(MEAL1_ID + 16, parseString(PUBLISHED), 150, "White vine", SEAFOOD_HEAVEN);
 
-    public static Meal getNewMeal() {
-        return new Meal(995, "Karry Chicken");
-    }
-
     public static final List<Meal> CFC_MENU = List.of(MEAL1, MEAL2, MEAL3);
 
     public static final List<Meal> ALL_MENUS = List.of(MEAL1, MEAL2, MEAL3, MEAL4, MEAL5, MEAL6, MEAL7, MEAL8, MEAL9, MEAL10, MEAL11, MEAL12, MEAL13, MEAL14, MEAL15, MEAL16, MEAL17);
 
     public static final Meal UPDATED_MEAL = new Meal(MEAL1_ID + 2, parseString(PUBLISHED), 135, "Premium Lager", CROWN_FRIED_CHICKEN);
+
+    public static Meal getNewMeal() {
+        return new Meal(995, "Karry Chicken");
+    }
 
 
 }

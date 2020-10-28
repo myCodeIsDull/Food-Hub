@@ -23,7 +23,7 @@ public abstract class AbstractBaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GLOBAL_SEQ")
   @SequenceGenerator(name = "GLOBAL_SEQ", sequenceName = "GLOBAL_SEQ", initialValue = START_SEQ, allocationSize = 1)
-  protected Integer id;
+  private Integer id;
 
   @JsonIgnore
   public boolean isNew() {

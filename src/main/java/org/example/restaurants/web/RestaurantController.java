@@ -6,6 +6,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.SneakyThrows;
 import org.example.restaurants.model.Meal;
 import org.example.restaurants.model.Restaurant;
@@ -24,40 +25,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RestaurantController {
 
-  private final RestaurantRepository restaurantRepository;
-  private final MealRepository mealRepository;
-  private final MealToModelAssembler assembler;
+    private final RestaurantRepository restaurantRepository;
+    private final MealRepository mealRepository;
+    private final MealToModelAssembler assembler;
 
-  public RestaurantController(RestaurantRepository restaurantRepository,
-      MealRepository mealRepository, MealToModelAssembler assembler) {
-    this.restaurantRepository = restaurantRepository;
-    this.mealRepository = mealRepository;
-    this.assembler = assembler;
-  }
+    public RestaurantController(RestaurantRepository restaurantRepository, MealRepository mealRepository, MealToModelAssembler assembler) {
+        this.restaurantRepository = restaurantRepository;
+        this.mealRepository = mealRepository;
+        this.assembler = assembler;
+    }
 
 
-  @GetMapping("/restaurants")
-  @ResponseStatus(HttpStatus.OK)
-  @SneakyThrows
-  public CollectionModel<EntityModel<MenuTo>> getAll() {
-    List<Restaurant> restaurants = restaurantRepository.getAll();
-    List<Meal> meals = mealRepository.getAll(new SimpleDateFormat("yyyy-MM-dd").parse("2020-08-10"));
-    List<EntityModel<MenuTo>> menus = MenuUtil
-        .getTos(restaurants, meals).stream()
-        .map(assembler::toModel)
-        .collect(Collectors.toList());
-    return CollectionModel
-        .of(menus, linkTo(methodOn(RestaurantController.class).getAll()).withSelfRel());
-  }
+    @GetMapping("/restaurants")
+    @ResponseStatus(HttpStatus.OK)
+    @SneakyThrows
+    public CollectionModel<EntityModel<MenuTo>> getAll() {
+        List<Restaurant> restaurants = restaurantRepository.getAll();
+        List<Meal> meals = mealRepository.getAll(new SimpleDateFormat("yyyy-MM-dd").parse("2020-08-10"));
+        List<EntityModel<MenuTo>> menus = MenuUtil
+                .getTos(restaurants, meals).stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel
+                .of(menus, linkTo(methodOn(RestaurantController.class).getAll()).withSelfRel());
+    }
 
-  @ResponseStatus(HttpStatus.OK)
-  @GetMapping("/restaurants/{id}")
-  @SneakyThrows
-  public EntityModel<MenuTo> getOne(@PathVariable int id) {
-    Restaurant restaurant = restaurantRepository.get(id);
-    List<Meal> meals = mealRepository.getAllById(restaurant.getId(), new SimpleDateFormat("yyyy-MM-dd").parse("2020-08-10"));
-    return assembler
-        .toModel(MenuUtil.getTo(restaurant, meals));
-  }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/restaurants/{id}")
+    @SneakyThrows
+    public EntityModel<MenuTo> getOne(@PathVariable int id) {
+        Restaurant restaurant = restaurantRepository.get(id);
+        List<Meal> meals = mealRepository.getAllById(restaurant.getId(), new SimpleDateFormat("yyyy-MM-dd").parse("2020-08-10"));
+        return assembler
+                .toModel(MenuUtil.getTo(restaurant, meals));
+    }
 
 }

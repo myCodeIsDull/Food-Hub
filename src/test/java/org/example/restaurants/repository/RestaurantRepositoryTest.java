@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RestaurantRepositoryTest  extends AbstractRepositoryTest {
 
     @Autowired
-    RestaurantRepository repository;
+    private RestaurantRepository repository;
 
     @Test
     void create() {

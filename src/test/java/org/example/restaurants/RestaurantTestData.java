@@ -1,6 +1,6 @@
 package org.example.restaurants;
 
-import static org.example.restaurants.util.DateUtil.*;
+import static org.example.restaurants.util.DateUtil.parseString;
 
 import java.util.Date;
 import java.util.List;
@@ -41,11 +41,11 @@ public class RestaurantTestData {
 
     public static final Restaurant NOT_FOUND = new Restaurant(NOT_FOUND_ID, "", new Date(), NEW_ADDRESS);
 
+    public static final List<Restaurant> RESTAURANTS = List.of(CROWN_FRIED_CHICKEN, MC_DONALDS, VENICE, VEGAN, SEAFOOD_HEAVEN);
+
     public static Restaurant getNew() {
         return new Restaurant("White Rabbit", NEW_ADDRESS);
     }
-
-    public static final List<Restaurant> RESTAURANTS = List.of(CROWN_FRIED_CHICKEN, MC_DONALDS, VENICE, VEGAN, SEAFOOD_HEAVEN);
 
 
 }
