@@ -5,7 +5,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.JoinColumn;
+import javax.persistence.CollectionTable;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -50,19 +59,20 @@ public class User extends AbstractNamedEntity {
     private boolean enabled = true;
 
 
-    public User(Integer id, String name, String email, String password, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, boolean enabled, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
+        this.enabled = enabled;
         setRoles(roles);
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, EnumSet.of(role, roles));
+        this(id, name, email, password, true, EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String email, String password, Role role) {
-        this(id, name, email, password, EnumSet.of(role));
+        this(id, name, email, password, true, EnumSet.of(role));
     }
 
     public void setRoles(Collection<Role> roles) {

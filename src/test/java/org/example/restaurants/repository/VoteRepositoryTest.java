@@ -10,7 +10,9 @@ import static org.example.restaurants.RestaurantTestData.CFC_ID;
 import static org.example.restaurants.RestaurantTestData.VENICE;
 import static org.example.restaurants.UserTestData.USER;
 import static org.example.restaurants.VoteTestData.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VoteRepositoryTest extends AbstractRepositoryTest {
 

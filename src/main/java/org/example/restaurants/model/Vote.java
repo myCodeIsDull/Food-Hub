@@ -1,6 +1,9 @@
 package org.example.restaurants.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.example.restaurants.HasRestaurantID;
 
 import javax.persistence.Entity;

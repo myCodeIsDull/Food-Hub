@@ -4,11 +4,18 @@ import org.example.restaurants.model.Restaurant;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.example.restaurants.RestaurantTestData.*;
+import static org.example.restaurants.RestaurantTestData.RESTAURANT_MATCHER;
+import static org.example.restaurants.RestaurantTestData.getNew;
+import static org.example.restaurants.RestaurantTestData.UPDATED;
+import static org.example.restaurants.RestaurantTestData.NOT_FOUND_ID;
+import static org.example.restaurants.RestaurantTestData.NOT_FOUND;
+import static org.example.restaurants.RestaurantTestData.CFC_ID;
+import static org.example.restaurants.RestaurantTestData.CROWN_FRIED_CHICKEN;
+import static org.example.restaurants.RestaurantTestData.RESTAURANTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class RestaurantRepositoryTest  extends AbstractRepositoryTest {
+class RestaurantRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     private RestaurantRepository repository;

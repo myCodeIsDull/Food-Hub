@@ -1,6 +1,5 @@
 package org.example.restaurants.web;
 
-import lombok.SneakyThrows;
 import org.example.restaurants.model.Meal;
 import org.example.restaurants.model.Restaurant;
 import org.example.restaurants.model.Vote;
@@ -41,7 +40,6 @@ public class RestaurantController {
 
     @GetMapping("/restaurants")
     @ResponseStatus(HttpStatus.OK)
-    @SneakyThrows
     public CollectionModel<EntityModel<MenuTo>> getAll() {
         List<Restaurant> restaurants = restaurantRepository.getAll();
         List<Vote> votes = voteRepository.getAllByDate(parseString("2020-08-10"));
@@ -56,7 +54,6 @@ public class RestaurantController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/restaurants/{id}")
-    @SneakyThrows
     public EntityModel<MenuTo> getOne(@PathVariable int id) {
         Restaurant restaurant = restaurantRepository.get(id);
         List<Vote> votes = voteRepository.getAllByDate(parseString("2020-08-10"));
