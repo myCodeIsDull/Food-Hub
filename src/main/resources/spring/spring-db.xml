@@ -23,7 +23,7 @@
       </jdbc:initialize-database>
 
 <!--      <bean id="dataSource"-->
-<!--            class="org.springframework.jdbc.datasource.DriverManagerDataSource"-->
+<!--            class="org.apache.tomcat.jdbc.pool.DataSource"-->
 <!--            p:driverClassName="org.h2.Driver"-->
 <!--            p:url="${database.url}"-->
 <!--            p:username="${database.username}"-->
@@ -31,7 +31,7 @@
 
       <!--dataSource with log4jdbc driver-->
       <bean id="dataSource"
-            class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+            class="org.apache.tomcat.jdbc.pool.DataSource"
             p:driverClassName="net.sf.log4jdbc.DriverSpy"
             p:url="${database.url}"
             p:username="${database.username}"
