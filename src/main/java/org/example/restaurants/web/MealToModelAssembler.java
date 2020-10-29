@@ -10,13 +10,13 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MealToModelAssembler implements
-    RepresentationModelAssembler<MenuTo, EntityModel<MenuTo>> {
+public class MealToModelAssembler implements RepresentationModelAssembler<MenuTo, EntityModel<MenuTo>> {
 
-  @Override
-  public EntityModel<MenuTo> toModel(MenuTo menu) {
-    return of(menu,
-        linkTo(methodOn(RestaurantController.class).getOne(menu.getId())).withSelfRel(),
-        linkTo(methodOn(RestaurantController.class).getAll()).withRel("restaurants"));
-  }
+    @Override
+    public EntityModel<MenuTo> toModel(MenuTo menu) {
+        return of(menu,
+                linkTo(methodOn(RestaurantController.class).getOne(menu.getId())).withSelfRel(),
+                linkTo(methodOn(RestaurantController.class).getAll()).withRel("restaurants"));
+
+    }
 }

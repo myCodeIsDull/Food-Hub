@@ -1,17 +1,12 @@
 package org.example.restaurants.web;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import lombok.SneakyThrows;
 import org.example.restaurants.model.Meal;
 import org.example.restaurants.model.Restaurant;
+import org.example.restaurants.model.Vote;
 import org.example.restaurants.repository.MealRepository;
 import org.example.restaurants.repository.RestaurantRepository;
+import org.example.restaurants.repository.VoteRepository;
 import org.example.restaurants.to.MenuTo;
 import org.example.restaurants.util.MenuUtil;
 import org.springframework.hateoas.CollectionModel;
@@ -22,28 +17,37 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.example.restaurants.util.DateUtil.parseString;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 public class RestaurantController {
 
     private final RestaurantRepository restaurantRepository;
     private final MealRepository mealRepository;
     private final MealToModelAssembler assembler;
+    private final VoteRepository voteRepository;
 
-    public RestaurantController(RestaurantRepository restaurantRepository, MealRepository mealRepository, MealToModelAssembler assembler) {
+    public RestaurantController(RestaurantRepository restaurantRepository, MealRepository mealRepository, MealToModelAssembler assembler, VoteRepository voteRepository) {
         this.restaurantRepository = restaurantRepository;
         this.mealRepository = mealRepository;
         this.assembler = assembler;
+        this.voteRepository = voteRepository;
     }
-
 
     @GetMapping("/restaurants")
     @ResponseStatus(HttpStatus.OK)
     @SneakyThrows
     public CollectionModel<EntityModel<MenuTo>> getAll() {
         List<Restaurant> restaurants = restaurantRepository.getAll();
-        List<Meal> meals = mealRepository.getAll(new SimpleDateFormat("yyyy-MM-dd").parse("2020-08-10"));
+        List<Vote> votes = voteRepository.getAllByDate(parseString("2020-08-10"));
+        List<Meal> meals = mealRepository.getAll(parseString("2020-08-10"));
         List<EntityModel<MenuTo>> menus = MenuUtil
-                .getTos(restaurants, meals).stream()
+                .getTos(restaurants, meals, votes).stream()
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
         return CollectionModel
@@ -55,9 +59,10 @@ public class RestaurantController {
     @SneakyThrows
     public EntityModel<MenuTo> getOne(@PathVariable int id) {
         Restaurant restaurant = restaurantRepository.get(id);
-        List<Meal> meals = mealRepository.getAllById(restaurant.getId(), new SimpleDateFormat("yyyy-MM-dd").parse("2020-08-10"));
+        List<Vote> votes = voteRepository.getAllByDate(parseString("2020-08-10"));
+        List<Meal> meals = mealRepository.getAllById(restaurant.getId(), parseString("2020-08-10"));
         return assembler
-                .toModel(MenuUtil.getTo(restaurant, meals));
+                .toModel(MenuUtil.getTo(restaurant, meals, votes));
     }
 
 }

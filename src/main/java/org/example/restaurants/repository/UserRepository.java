@@ -2,6 +2,8 @@ package org.example.restaurants.repository;
 
 import org.example.restaurants.model.User;
 
+import java.util.List;
+
 public interface UserRepository {
 
     User save(User user);
@@ -14,4 +16,6 @@ public interface UserRepository {
 
     // null if not found
     User getByEmail(String email);
+
+    List<User>getAll();
 }

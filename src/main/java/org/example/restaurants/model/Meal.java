@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.example.restaurants.HasRestaurantID;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ import java.util.Date;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Meal extends AbstractBaseEntity {
+public class Meal extends AbstractBaseEntity implements HasRestaurantID {
 
     @Column(nullable = false, columnDefinition = "timestamp default now()")
     @JsonIgnore
@@ -60,5 +61,10 @@ public class Meal extends AbstractBaseEntity {
 
     public Meal(int price, String description) {
         this(null, price, description, null);
+    }
+
+    @Override
+    public Integer getRestaurantID() {
+        return restaurant.getId();
     }
 }

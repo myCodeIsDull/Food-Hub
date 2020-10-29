@@ -17,7 +17,7 @@
       <jpa:repositories base-package="org.example.**.repository.jpa"/>
       <tx:annotation-driven/>
 
-      <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+      <jdbc:initialize-database enabled="${database.init}">
             <jdbc:script location="${jdbc.initLocation}"/>
             <jdbc:script encoding="utf-8" location="${jdbc.populateLocation}"/>
       </jdbc:initialize-database>
@@ -50,8 +50,8 @@
                               <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
                               <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}" value="${hibernate.use_sql_comments}"/>
 <!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_ACTION}" value="${hibernate.hbm2ddl.scripts.action}"/>-->
-<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_CREATE_TARGET}" value="WORKSPACE/restaurants/config/ddl/create.ddl"/>-->
-<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_DROP_TARGET}" value="WORKSPACE/restaurants/config/ddl/drop.ddl"/>-->
+<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_CREATE_TARGET}" value="${RESTAURANTS_ROOT}/config/ddl/create.ddl"/>-->
+<!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_DROP_TARGET}" value="${RESTAURANTS_ROOT}/config/ddl/drop.ddl"/>-->
 <!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="${hibernate.hbm2ddl.auto}"/>-->
 <!--                              <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_DELIMITER}" value=";"/>-->
                         </map>

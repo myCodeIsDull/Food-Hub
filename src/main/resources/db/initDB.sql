@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS meal;
 DROP TABLE IF EXISTS menu;
@@ -48,4 +49,12 @@ CREATE TABLE user_roles
     role    VARCHAR(255),
     CONSTRAINT user_roles_idx UNIQUE (user_id, role),
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE votes
+(
+    id         INTEGER   DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
+    rest_id    INTEGER   REFERENCES restaurants (id) ON DELETE CASCADE,
+    user_id    INTEGER   REFERENCES users (id) ON DELETE CASCADE,
+    registered TIMESTAMP DEFAULT now() NOT NULL
 );

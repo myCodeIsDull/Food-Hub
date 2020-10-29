@@ -1,18 +1,15 @@
-DELETE
-FROM user_roles;
-DELETE
-FROM users;
-DELETE
-FROM meal;
-DELETE
-FROM restaurants;
+DELETE FROM user_roles;
+DELETE FROM users;
+DELETE FROM meal;
+DELETE FROM restaurants;
+DELETE FROM votes;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
-INSERT INTO users (name, email, password)
+INSERT INTO USERS (name, email, password)
 VALUES ('User', 'user@yandex.ru', 'password'),
        ('Admin', 'admin@gmail.com', 'admin');
 
-INSERT INTO user_roles (role, user_id)
+INSERT INTO USER_ROLES (role, user_id)
 VALUES ('USER', 100000),
        ('ADMIN', 100001),
        ('USER', 100001);
@@ -42,3 +39,8 @@ VALUES (100002, 'Fried Chicken', 1075, '2020-08-10'),
        (100006, 'Fried Shrimps', 800, '2020-08-10'),
        (100006, 'Sea food salad', 1095, '2020-08-10'),
        (100006, 'White vine', 150, '2020-08-10');
+
+INSERT INTO VOTES(REST_ID, USER_ID, REGISTERED)
+VALUES (100002, 100000, '2020-08-10'),
+       (100003, 100001, '2020-08-10'),
+       (100004, 100000, '2020-07-10');
