@@ -1,8 +1,8 @@
 DELETE FROM user_roles;
 DELETE FROM users;
 DELETE FROM meal;
-DELETE FROM restaurants;
-DELETE FROM votes;
+DELETE FROM restaurant;
+DELETE FROM vote;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO USERS (name, email, password)
@@ -14,7 +14,7 @@ VALUES ('USER', 100000),
        ('ADMIN', 100001),
        ('USER', 100001);
 
-INSERT INTO RESTAURANTS(NAME, REGISTERED, CITY, STREET, HOUSE, PHONE)
+INSERT INTO RESTAURANT(NAME, REGISTERED, CITY, STREET, HOUSE, PHONE)
 VALUES ('Crown Fried Chicken', '2018-12-03', 'Springfield', 'Main St', '20', '555-35-35'),
        ('McDonalds', '2017-08-11', 'Springfield', 'Maple St', '5', '333-40-51'),
        ('Venice', '2020-03-25', 'Springfield', 'High St', '13', '348-88-13'),
@@ -40,7 +40,7 @@ VALUES (100002, 'Fried Chicken', 1075, '2020-08-10'),
        (100006, 'Sea food salad', 1095, '2020-08-10'),
        (100006, 'White vine', 150, '2020-08-10');
 
-INSERT INTO VOTES(REST_ID, USER_ID, REGISTERED)
+INSERT INTO VOTE(REST_ID, USER_ID, REGISTERED)
 VALUES (100002, 100000, '2020-08-10'),
        (100003, 100001, '2020-08-10'),
        (100004, 100000, '2020-07-10');

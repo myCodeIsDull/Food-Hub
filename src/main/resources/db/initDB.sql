@@ -1,15 +1,14 @@
 DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS votes;
+DROP TABLE IF EXISTS vote;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS meal;
-DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS address;
-DROP TABLE IF EXISTS restaurants;
+DROP TABLE IF EXISTS restaurant;
 DROP SEQUENCE IF EXISTS global_seq;
 
 CREATE SEQUENCE GLOBAL_SEQ START WITH 100000;
 
-CREATE TABLE restaurants
+CREATE TABLE restaurant
 (
     id         INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
     name       VARCHAR(100)          NOT NULL,
@@ -25,10 +24,10 @@ CREATE TABLE restaurants
 CREATE TABLE meal
 (
     id        INTEGER   DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
-    rest_id   INTEGER REFERENCES restaurants (id) ON DELETE CASCADE,
+    rest_id   INTEGER REFERENCES restaurant (id) ON DELETE CASCADE,
     price     INTEGER                 NOT NULL CHECK (price >= 10 AND price <= 5000),
     title     VARCHAR(255)            NOT NULL,
-    published TIMESTAMP DEFAULT now() NOT NULL,
+    published DATE DEFAULT now() NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -51,10 +50,10 @@ CREATE TABLE user_roles
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE votes
+CREATE TABLE vote
 (
     id         INTEGER   DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
-    rest_id    INTEGER   REFERENCES restaurants (id) ON DELETE CASCADE,
+    rest_id    INTEGER   REFERENCES restaurant (id) ON DELETE CASCADE,
     user_id    INTEGER   REFERENCES users (id) ON DELETE CASCADE,
     registered TIMESTAMP DEFAULT now() NOT NULL
 );

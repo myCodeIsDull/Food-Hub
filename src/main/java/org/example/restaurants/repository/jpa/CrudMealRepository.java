@@ -1,6 +1,6 @@
 package org.example.restaurants.repository.jpa;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.example.restaurants.model.Meal;
@@ -19,8 +19,8 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     int delete(@Param("id") int id, @Param("restId") int restId);
 
     @Query("SELECT m FROM Meal m WHERE m.restaurant.id=:restId AND m.published=:published")
-    List<Meal> getAllById(@Param("restId") int restId, @Param("published") Date published);
+    List<Meal> getAllById(@Param("restId") int restId, @Param("published") LocalDate published);
 
     @Query("SELECT m FROM Meal m WHERE m.published=:published")
-    List<Meal> getAll(@Param("published") Date published);
+    List<Meal> getAll(@Param("published") LocalDate published);
 }

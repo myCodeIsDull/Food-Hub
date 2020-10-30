@@ -15,7 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 //represents a record in restaurant menu
@@ -27,11 +27,11 @@ import java.util.Date;
 @NoArgsConstructor
 public class Meal extends AbstractBaseEntity implements HasRestaurantID {
 
-    @Column(nullable = false, columnDefinition = "timestamp default now()")
+    @Column(nullable = false, columnDefinition = "date default now()")
     @JsonIgnore
-    private Date published = new Date();
+    private LocalDate published = LocalDate.now();
 
-    @Range(min = 10, max = 1000)
+    @Range(min = 10, max = 3000)
     @Column(nullable = false)
     private int price;
 
@@ -44,7 +44,7 @@ public class Meal extends AbstractBaseEntity implements HasRestaurantID {
     @JsonIgnore
     private Restaurant restaurant;
 
-    public Meal(Integer id, Date published, int price, String description, Restaurant restaurant) {
+    public Meal(Integer id, LocalDate published, int price, String description, Restaurant restaurant) {
         super(id);
         this.published = published;
         this.price = price;

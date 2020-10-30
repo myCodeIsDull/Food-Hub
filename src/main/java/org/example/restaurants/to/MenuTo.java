@@ -17,6 +17,6 @@ public class MenuTo {
 
   private Integer id;
   private Restaurant restaurant;
-  private List<Meal> mealList;
+  private List<Meal> menu;
   private int votes;
 }

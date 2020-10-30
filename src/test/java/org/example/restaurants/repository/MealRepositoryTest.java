@@ -4,10 +4,12 @@ import org.example.restaurants.model.Meal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import static org.example.restaurants.MealTestData.*;
 import static org.example.restaurants.RestaurantTestData.CFC_ID;
 import static org.example.restaurants.RestaurantTestData.NOT_FOUND_ID;
-import static org.example.restaurants.util.DateUtil.parseString;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -24,6 +26,15 @@ class MealRepositoryTest extends AbstractRepositoryTest {
         Meal expected = getNewMeal();
         expected.setId(mealId);
         MEAL_TEST_MATCHER.assertMatch(meal, expected);
+    }
+
+    @Test
+    void saveList() {
+        List<Meal>menu = getNewestMenu();
+        repository.saveMenu(menu,CFC_ID);
+        List<Meal>expected = repository.getAllById(CFC_ID, LocalDate.now());
+        MEAL_TEST_MATCHER.assertMatch(menu,expected);
+
     }
 
     @Test
@@ -73,11 +84,11 @@ class MealRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     void getAllByRestaurantId() {
-        MEAL_TEST_MATCHER.assertMatch(repository.getAllById(CFC_ID, parseString(PUBLISHED)), CFC_MENU);
+        MEAL_TEST_MATCHER.assertMatch(repository.getAllById(CFC_ID, PUBLISHED), CFC_MENU);
     }
 
     @Test
     void getAllByDate() {
-        MEAL_TEST_MATCHER.assertMatch(repository.getAll(parseString(PUBLISHED)), ALL_MENUS);
+        MEAL_TEST_MATCHER.assertMatch(repository.getAll(PUBLISHED), ALL_MENUS);
     }
 }

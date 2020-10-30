@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static org.example.restaurants.MealTestData.PUBLISHED;
 import static org.example.restaurants.RestaurantTestData.CFC_ID;
 import static org.example.restaurants.RestaurantTestData.VENICE;
 import static org.example.restaurants.UserTestData.USER;
 import static org.example.restaurants.VoteTestData.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VoteRepositoryTest extends AbstractRepositoryTest {
 
@@ -56,14 +57,8 @@ class VoteRepositoryTest extends AbstractRepositoryTest {
     }
 
     @Test
-    void delete() {
-        assertTrue(voteRepository.delete(USER.getId(), REGISTERED));
-        assertNull(voteRepository.get(VOTE1.getId(), USER.getId()));
-    }
-
-    @Test
     void getAllByDate() {
-        List<Vote> votes = voteRepository.getAllByDate(REGISTERED);
+        List<Vote> votes = voteRepository.getAllByDate(PUBLISHED);
         VOTE_TEST_MATCHER.assertMatch(votes, VOTES);
     }
 
@@ -71,5 +66,17 @@ class VoteRepositoryTest extends AbstractRepositoryTest {
     void getAllByUserId() {
         List<Vote> votes = voteRepository.getAllByUserId(USER.getId());
         VOTE_TEST_MATCHER.assertMatch(votes, USER_VOTES);
+    }
+
+    @Test
+    void countRestaurantVotes() {
+        int votes = voteRepository.count(CFC_ID, PUBLISHED);
+        assertEquals(1, votes);
+    }
+
+    @Test
+    void getAllByRestId() {
+        List<Vote> votes = voteRepository.getAllByRestId(CFC_ID);
+        VOTE_TEST_MATCHER.assertMatch(votes, List.of(VOTE1));
     }
 }

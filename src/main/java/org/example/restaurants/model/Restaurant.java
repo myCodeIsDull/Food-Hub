@@ -14,7 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,14 +24,14 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = Restaurant.GET_ALL, query = "SELECT r FROM Restaurant r"),
 })
-@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"phone"}, name = "unique_phone_number")})
+@Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames = {"phone"}, name = "unique_phone_number")})
 public class Restaurant extends AbstractNamedEntity {
 
     public static final String GET_ALL = "Restaurant.getAll";
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "registered", nullable = false, columnDefinition = "date default now()")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date registered = new Date();
+    private LocalDate registered = LocalDate.now();
 
     @Embedded
     private Address address;
@@ -39,14 +39,14 @@ public class Restaurant extends AbstractNamedEntity {
     @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
     private boolean enabled = true;
 
-    public Restaurant(Integer id, String name, Date registered, boolean enabled, Address address) {
+    public Restaurant(Integer id, String name, LocalDate registered, boolean enabled, Address address) {
         super(id, name);
         this.registered = registered;
         this.enabled = enabled;
         this.address = address;
     }
 
-    public Restaurant(Integer id, String name, Date registered, Address address) {
+    public Restaurant(Integer id, String name, LocalDate registered, Address address) {
         super(id, name);
         this.registered = registered;
         this.address = address;

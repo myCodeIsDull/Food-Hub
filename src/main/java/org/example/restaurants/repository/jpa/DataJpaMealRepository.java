@@ -1,9 +1,10 @@
 package org.example.restaurants.repository.jpa;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.example.restaurants.model.Meal;
+import org.example.restaurants.model.Restaurant;
 import org.example.restaurants.repository.MealRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,14 @@ public class DataJpaMealRepository implements MealRepository {
     }
 
     @Override
+    @Transactional
+    public List<Meal> saveMenu(List<Meal> meals, int restId) {
+        Restaurant restaurant = restaurantRepository.getOne(restId);
+        meals.forEach(meal -> meal.setRestaurant(restaurant));
+        return mealRepository.saveAll(meals);
+    }
+
+    @Override
     public boolean delete(int id, int restId) {
         return mealRepository.delete(id, restId) != 0;
     }
@@ -42,12 +51,12 @@ public class DataJpaMealRepository implements MealRepository {
     }
 
     @Override
-    public List<Meal> getAllById(int restId, Date published) {
+    public List<Meal> getAllById(int restId, LocalDate published) {
         return mealRepository.getAllById(restId, published);
     }
 
     @Override
-    public List<Meal> getAll(Date published) {
+    public List<Meal> getAll(LocalDate published) {
         return mealRepository.getAll(published);
     }
 }

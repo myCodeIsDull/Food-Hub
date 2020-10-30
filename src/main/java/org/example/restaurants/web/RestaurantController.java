@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.example.restaurants.util.DateUtil.parseString;
+import static org.example.restaurants.util.DateUtil.parseLocalDate;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -42,8 +42,8 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.OK)
     public CollectionModel<EntityModel<MenuTo>> getAll() {
         List<Restaurant> restaurants = restaurantRepository.getAll();
-        List<Vote> votes = voteRepository.getAllByDate(parseString("2020-08-10"));
-        List<Meal> meals = mealRepository.getAll(parseString("2020-08-10"));
+        List<Vote> votes = voteRepository.getAllByDate(parseLocalDate("2020-08-10"));
+        List<Meal> meals = mealRepository.getAll(parseLocalDate("2020-08-10"));
         List<EntityModel<MenuTo>> menus = MenuUtil
                 .getTos(restaurants, meals, votes).stream()
                 .map(assembler::toModel)
@@ -56,8 +56,8 @@ public class RestaurantController {
     @GetMapping("/restaurants/{id}")
     public EntityModel<MenuTo> getOne(@PathVariable int id) {
         Restaurant restaurant = restaurantRepository.get(id);
-        List<Vote> votes = voteRepository.getAllByDate(parseString("2020-08-10"));
-        List<Meal> meals = mealRepository.getAllById(restaurant.getId(), parseString("2020-08-10"));
+        List<Vote> votes = voteRepository.getAllByDate(parseLocalDate("2020-08-10"));
+        List<Meal> meals = mealRepository.getAllById(restaurant.getId(), parseLocalDate("2020-08-10"));
         return assembler
                 .toModel(MenuUtil.getTo(restaurant, meals, votes));
     }

@@ -2,7 +2,7 @@ package org.example.restaurants.repository;
 
 import org.example.restaurants.model.Vote;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface VoteRepository {
@@ -12,10 +12,11 @@ public interface VoteRepository {
     //null if vote is not belong to user
     Vote get(int id, int userId);
 
-    //false if no vote with current user and date
-    boolean delete(int userId, Date date);
+    int count(int restId, LocalDate localDate);
 
-    List<Vote> getAllByDate(Date date);
+    List<Vote> getAllByDate(LocalDate date);
 
     List<Vote> getAllByUserId(int userId);
+
+    List<Vote> getAllByRestId(int restId);
 }
